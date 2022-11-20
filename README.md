@@ -14,7 +14,7 @@ using Algomania is essential. See the [performance table](#performance) for test
    - **libsodium** - [Windows](https://download.libsodium.org/libsodium/releases/libsodium-1.0.18-stable-msvc.zip) / [Mac](https://formulae.brew.sh/formula/libsodium) / [RHEL](<https://rpmfind.net/linux/rpm2html/search.php?query=libsodium(x86-64)>) / [Ubuntu](https://pkgs.org/download/libsodium23)
 
 1. `git clone https://github.com/kirse/algomania`
-1. Update the `DllImport` path in [line 12]() of `Main.fs` to point to your libsodium library (.so, .dll, etc.)
+1. Update the `DllImport` path in [line 12](https://github.com/kirse/algomania/blob/main/Main.fs#L12) of `Main.fs` to point to your libsodium library (.so, .dll, etc.)
 
    - If Windows platform, simply copy `libsodium.dll` next to this program, no edits needed.
 
