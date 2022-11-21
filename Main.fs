@@ -64,7 +64,6 @@ let main _ =
     | _ -> ()
 
     let tries : uint64 = (pown ((uint64)256) base32.Length) * (if base32.Length % 5 = 0 then 1UL else 32UL)
-
     markupln (sprintf "Approx. 1 vanity address for every ~%s tries" (tries.ToString("N0")))
     let MAX_TRIES = AnsiConsole.Prompt(tp2)
     let total : int64 = (int64)CPU_COUNT * (int64)MAX_TRIES
