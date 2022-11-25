@@ -33,8 +33,11 @@ let main _ =
     let CPU_COUNT = Environment.ProcessorCount
 
     let watch = new System.Diagnostics.Stopwatch()
-    let runtime (ts: TimeSpan) (keyTries) = 
-        markupln (sprintf "Runtime: %dd+%Ah:%Am:%As.%A" ts.Days ts.Hours ts.Minutes ts.Seconds ts.Milliseconds)
+    let runtime (ts: TimeSpan) (keyTries : int64) = 
+        markupln (sprintf "\n[orange1]Runtime:[/] %dd+%Ah:%Am:%As.%A" ts.Days ts.Hours ts.Minutes ts.Seconds ts.Milliseconds)
+        if keyTries > 0 then
+            let keysPer = (Math.Round((float)keyTries / ts.TotalSeconds))
+            markupln (sprintf "[orange1]Keys/s:[/] %s" (keysPer.ToString("N0")))
 
     Console.CancelKeyPress.Add(
         fun _ -> 
@@ -66,10 +69,9 @@ let main _ =
     let tries : uint64 = (pown ((uint64)256) base32.Length) * (if base32.Length % 5 = 0 then 1UL else 32UL)
     markupln (sprintf "Approx. 1 vanity address for every ~%s tries" (tries.ToString("N0")))
     let MAX_TRIES = AnsiConsole.Prompt(tp2)
-    let total : int64 = (int64)CPU_COUNT * (int64)MAX_TRIES
-    markupln (sprintf "Keygen configured: %s tries" (if total = 0 then "Infinity" else total.ToString("N0")))
-    markupln "Keygen running, logging to console and [underline orange1]vanity.txt[/]... <Ctrl+C to stop>"
-    markupln ""
+    let totalTries : int64 = (int64)CPU_COUNT * (int64)MAX_TRIES
+    markupln (sprintf "Keygen configured: %s tries" (if totalTries = 0 then "Infinity" else totalTries.ToString("N0")))
+    markupln "Keygen running, logging to console and [underline orange1]vanity.txt[/]... <Ctrl+C to stop>\n"
 
     let keyMatcher (b32 : byte array) = 
         let inline m1 (pk : byte array) =          pk[0] = b32[0]
@@ -109,5 +111,5 @@ let main _ =
     watch.Start()
     taskMan CPU_COUNT MAX_TRIES
     watch.Stop()
-    runtime watch.Elapsed MAX_TRIES
+    runtime watch.Elapsed totalTries
     0
